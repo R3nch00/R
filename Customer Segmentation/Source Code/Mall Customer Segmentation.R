@@ -1,0 +1,144 @@
+mydata<-read.csv("C:/Users/O M A R/Downloads/Document/Data Science/PomPom/Mall_Customers.csv",header =TRUE,sep=",")
+mydata
+str(mydata)
+names(mydata)
+head(mydata)
+summary((mydata$Age))
+sd(mydata$Age)
+summary(mydata$Annual.Income..k..)
+sd(mydata$Annual.Income..k..)
+summary(mydata$Age)
+sd(mydata$Spending.Score..1.100.)
+a=table(mydata$Gender)
+barplot(a,main="Using BarPlot to display Gender Comparision",
+        ylab="Count",
+        xlab="Gender",
+        col=rainbow(2),
+        legend=rownames(a))
+pct=round(a/sum(a)*100)
+lbs=paste(c("Female","Male")," ",pct,"%",sep=" ")
+library(plotrix)
+pie3D(a,labels=lbs,main="Pie Chart Depicting Ratio of Female and Male")
+summary(mydata$Age)
+hist(mydata$Age,
+     col="blue",
+     main="Histogram to Show Count of Age Class",
+     xlab="Age Class",
+     ylab="Frequency",
+     labels=TRUE)
+boxplot(mydata$Age,
+        col="maroon",
+        main="Boxplot for Descriptive Analysis of Age")
+summary(mydata$Annual.Income..k..)
+hist(mydata$Annual.Income..k..,
+     col="palevioletred1",
+     main="Histogram for Annual Income",
+     xlab="Annual Income Class",
+     ylab="Frequency",
+     labels=TRUE)
+plot(density(mydata$Annual.Income..k..),
+     col="yellow",
+     main="Density Plot for Annual Income",
+     xlab="Annual Income Class",
+     ylab="Density")
+polygon(density(mydata$Annual.Income..k..),
+        col="olivedrab1")
+
+summary(mydata$Spending.Score..1.100.)
+
+boxplot(mydata$Spending.Score..1.100., 
+        horizontal=TRUE,
+        col="red4",
+        main="BoxPlot for Descriptive Analysis of Spending Score")
+
+hist(mydata$Spending.Score..1.100.,
+     main="HistoGram for Spending Score",
+     xlab="Spending Score Class",
+     ylab="Frequency",
+     col="purple4",
+     labels=TRUE)
+
+library(purrr)
+set.seed(123)
+
+iss <- function(k) {
+  kmeans(mydata[,3:5],k,iter.max=100,nstart=100,algorithm="Lloyd" )$tot.withinss
+}
+
+k.values <- 1:10
+
+
+iss_values <- map_dbl(k.values, iss)
+
+plot(k.values, iss_values,
+     type="b", pch = 19, frame = FALSE, 
+     xlab="Number of clusters K",
+     ylab="Total intra-clusters sum of squares")
+
+
+library(cluster) 
+library(gridExtra)
+library(grid)
+
+
+k2<-kmeans(mydata[,3:5],2,iter.max=100,nstart=50,algorithm="Lloyd")
+s2<-plot(silhouette(k2$cluster,dist(mydata[,3:5],"euclidean")))
+
+k3<-kmeans(mydata[,3:5],3,iter.max=100,nstart=50,algorithm="Lloyd")
+s3<-plot(silhouette(k3$cluster,dist(mydata[,3:5],"euclidean")))
+
+k4<-kmeans(mydata[,3:5],4,iter.max=100,nstart=50,algorithm="Lloyd")
+s4<-plot(silhouette(k4$cluster,dist(mydata[,3:5],"euclidean")))
+
+k5<-kmeans(mydata[,3:5],5,iter.max=100,nstart=50,algorithm="Lloyd")
+s5<-plot(silhouette(k5$cluster,dist(mydata[,3:5],"euclidean")))
+
+k6<-kmeans(mydata[,3:5],6,iter.max=100,nstart=50,algorithm="Lloyd")
+s6<-plot(silhouette(k6$cluster,dist(mydata[,3:5],"euclidean")))
+
+k7<-kmeans(mydata[,3:5],7,iter.max=100,nstart=50,algorithm="Lloyd")
+s7<-plot(silhouette(k7$cluster,dist(mydata[,3:5],"euclidean")))
+
+k8<-kmeans(mydata[,3:5],8,iter.max=100,nstart=50,algorithm="Lloyd")
+s8<-plot(silhouette(k8$cluster,dist(mydata[,3:5],"euclidean")))
+
+k9<-kmeans(mydata[,3:5],9,iter.max=100,nstart=50,algorithm="Lloyd")
+s9<-plot(silhouette(k9$cluster,dist(mydata[,3:5],"euclidean")))
+
+k10<-kmeans(mydata[,3:5],10,iter.max=100,nstart=50,algorithm="Lloyd")
+s10<-plot(silhouette(k10$cluster,dist(mydata[,3:5],"euclidean")))
+
+library(NbClust)
+library(factoextra)
+
+fviz_nbclust(mydata[,3:5], kmeans, method = "silhouette")
+
+set.seed(125)
+stat_gap <- clusGap(mydata[,3:5], FUN = kmeans, nstart = 25,
+                    K.max = 10, B = 50)
+fviz_gap_stat(stat_gap)
+
+k6<-kmeans(mydata[,3:5],6,iter.max=100,nstart=50,algorithm="Lloyd")
+k6
+
+pcclust=prcomp(mydata[,3:5],scale=FALSE) #principal component analysis
+summary(pcclust)
+
+pcclust$rotation[,1:2]
+
+
+set.seed(1)
+ggplot(mydata, aes(x =Annual.Income..k.., y = Spending.Score..1.100.)) + 
+  geom_point(stat = "identity", aes(color = as.factor(k6$cluster))) +
+  scale_color_discrete(name=" ",
+                       breaks=c("1", "2", "3", "4", "5","6"),
+                       labels=c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5","Cluster 6")) +
+  ggtitle("Segments of Mall Customers", subtitle = "Using K-means Clustering")
+
+
+ggplot(mydata, aes(x =Spending.Score..1.100., y =Age)) + 
+  geom_point(stat = "identity", aes(color = as.factor(k6$cluster))) +
+  scale_color_discrete(name=" ",
+                       breaks=c("1", "2", "3", "4", "5","6"),
+                       labels=c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4", "Cluster 5","Cluster 6")) +
+  ggtitle("Segments of Mall Customers", subtitle = "Using K-means Clustering")
