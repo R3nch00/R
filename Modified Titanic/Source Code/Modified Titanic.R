@@ -77,4 +77,5 @@ qqnorm(data$fare,main="Normal Q-Q plot")
 library(ggplot2)
 ggplot(data,aes(x=who,y=age))+geom_boxplot()
 
-
+library(ggplot2)
+ggplot(data,aes(x=who,y=fare))+geom_boxplot()
