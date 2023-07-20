@@ -1,0 +1,8 @@
+1)Importing the Datasets-> At first insert the .csv file(Dataset)
+2)Data Exploration-> Explore the data that contain CARD dataframe.Then using head() and tail() function as well.
+3)Data Manipulation-> Here data'll be scale by using scale() function which is known as feature standardization whare data's structured according to specified range.Then,there'll be no extreme values in the dataset.
+4)Data Modeling-> After dataset standardizationwhole dataset split into training set as well as test st a split ratio of 0.80.Then we'll find dimension by using dim() function.
+5)Fitting Logistic Regression Model-> In this part we set our first model.Begin with logistic regression which is used for the outcome probability of a class such as pass/fail,positive/negative.
+6)Fitting Decision Tree Model-> Here we implement a decision tree algorithm.Decision plot implemented by using rpart.plot() function.
+7)Artificial Neural Network-> The ANN models are able to learn the patterns using the historical data and are able to perform classification on the input data. We import the neuralnet package that would allow us to implement our ANNs. Then we proceeded to plot it using the plot() function. Now, in the case of Artificial Neural Networks, there is a range of values that is between 1 and 0. We set a threshold as 0.5, that is, values above 0.5 will correspond to 1 and the rest will be 0.
+8)Gradient Boosting(GBM)-> This model comprises of several underlying ensemble models like weak decision trees. These decision trees combine together to form a strong model of gradient boosting.
